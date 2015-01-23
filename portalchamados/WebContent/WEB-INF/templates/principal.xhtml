@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+
+	<f:loadBundle var="msgs" basename="messages"/>
+
+	<h:head>
+		<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Portal de Chamados</title>
+		</f:facet>
+		
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+		<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/copergas.css" />
+
+		<style type="text/css">
+			.ui-layout-north {
+				z-index: 20 !important;
+				overflow: visible !important;;
+			}
+
+			.ui-layout-north .ui-layout-unit-content {
+				overflow: visible !important;
+			}
+			
+	      	.coluna1 {
+	      		text-align: right;
+	      		width:20%
+	      	}
+	      	  
+    	  	.coluna2 {
+    	  		text-align: left;
+    	  		width:80%
+    	  	}
+    	  	
+		</style>
+	</h:head>
+
+	<h:body>
+		<p:layout fullPage="true">
+			<p:layoutUnit id="top" position="north" size="60"  styleClass="containerNorth">
+				<h:form>
+					<p:growl id="messages" />
+					<p:menubar styleClass="semBordas">
+						<p:submenu label=" Portal " icon="ui-icon-document">
+							<p:menuitem value=" Home" url="/view/index.xhtml" />
+							<p:separator />
+							<p:menuitem value="Quit" url="#" />
+						</p:submenu>
+						<p:submenu label=" Chamados GETI " icon="ui-icon-document">
+							<p:menuitem value="Importação" url="/view/ticket/importarTickets.xhtml" />
+							<p:submenu label="Chamados">
+								<p:menuitem value="Consultar" url="/view/ticket/pesquisarTicket.xhtml" />
+								<p:menuitem value="Cadastrar Completo" url="/view/ticket/salvarTicket.xhtml" />
+								<p:menuitem value="Cadastrar Simplificado" url="/view/ticket/salvarTicketUsuario.xhtml" />
+								<p:separator />
+								<p:menuitem value="Indicadores SGI" url="/view/ticket/exibirIndicadores.xhtml" />
+								<p:menuitem value="Indicadores Totais Ano" url="/view/ticket/exibirTotaisAno.xhtml" />
+							</p:submenu>
+						</p:submenu>
+					</p:menubar>
+				</h:form>
+			</p:layoutUnit>
+
+			<p:layoutUnit id="center" position="center">
+				<ui:insert id="conteudo" name="conteudo" />
+			</p:layoutUnit>
+
+			<p:layoutUnit id="bottom" position="south" size="40" styleClass="containerSouth">
+				<div align="center">
+					<h:outputText value="© 2013 - Desenvolvido pela Companhia Pernambucana de Gás - COPERGÁS" />&nbsp;&nbsp;&nbsp;
+					<h:outputText value="|" />&nbsp;&nbsp;&nbsp;
+					<h:outputText value="Versão: 1.5.1-Beta" />
+				</div>
+			</p:layoutUnit>
+
+		</p:layout>
+	</h:body>
+
+</f:view>
+</html>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/principal.xhtml">
+	<ui:define name="conteudo">
+		<h:form> 
+			<p:panel id="panel" header="Informe os campos abaixo para salvar o registro ( * Obrigatórios ): " style="margin-bottom:10px;">
+				
+				<p:messages id="messages" />
+				
+				<h:panelGrid columns="2" cellpadding="10">
+					<h:panelGroup><h:outputLabel for="codigo" value="Código: " /><h:outputText value="*" rendered="#{produtoController.habilitaEdicao == true}" /></h:panelGroup>
+					<p:inputText id="codigo" value="#{produtoController.produto.codigo}" maxlength="5" label="Código" rendered="#{produtoController.habilitaEdicao == true}" />
+					<h:outputLabel value="#{produtoController.produto.codigo}" rendered="#{produtoController.habilitaEdicao == false}" />
+
+					<h:panelGroup><h:outputText for="categoria" value="Categoria: " /><h:outputText value="*" rendered="#{produtoController.habilitaEdicao == true}" /></h:panelGroup>  
+					<p:selectOneMenu id="categoria" value="#{produtoController.produto.produtoCategoria}" converter="produtoCategoriaConverter" items="#{produtoController.listaCategoriaProduto}" rendered="#{produtoController.habilitaEdicao == true}">
+						<f:selectItem itemLabel="" itemValue="" />    
+						<f:selectItems value="#{produtoController.listaCategoriaProduto}" var="categoriaProduto" itemLabel="#{categoriaProduto.descricao}" itemValue="#{categoriaProduto}" />    
+					</p:selectOneMenu>
+					<h:outputLabel value="#{produtoController.produto.produtoCategoria.descricao}" rendered="#{produtoController.habilitaEdicao == false}" />
+
+					<h:panelGroup><h:outputLabel for="descricao" value="Descrição: " /><h:outputText value="*" rendered="#{produtoController.habilitaEdicao == true}" /></h:panelGroup>
+					<p:inputText id="descricao" value="#{produtoController.produto.descricao}" size="63" label="Descrição" rendered="#{produtoController.habilitaEdicao == true}" />
+					<h:outputLabel value="#{produtoController.produto.descricao}" rendered="#{produtoController.habilitaEdicao == false}" />
+
+			    	<h:outputText for="data" value="Data: " />
+					<p:calendar value="#{produtoController.produto.data}" id="data" showOn="button" navigator="true" label="Data" rendered="#{produtoController.habilitaEdicao == true}" />
+					<h:outputLabel value="#{produtoController.produto.data}" rendered="#{produtoController.habilitaEdicao == false}" /> 
+
+					<h:panelGroup><h:outputLabel for="valor" value="Valor: " /><h:outputText value="*" rendered="#{produtoController.habilitaEdicao == true}" /></h:panelGroup>
+					<p:inputText id="valor" value="#{produtoController.produto.valor}" label="Valor" rendered="#{produtoController.habilitaEdicao == true}" />
+					<h:outputLabel value="#{produtoController.produto.valor}" rendered="#{produtoController.habilitaEdicao == false}" />
+				</h:panelGrid>
+			</p:panel>
+			
+			<p:commandButton value="Cancelar" id="btCancelar" action="#{produtoController.cancelar}" ajax="false" />&nbsp;&nbsp; 
+			<p:commandButton value="Limpar" update="panel" id="btLimpar" action="#{produtoController.limpar}" ajax="false" rendered="#{produtoController.habilitaEdicao == true}" />
+
+			&nbsp;&nbsp; | &nbsp;&nbsp;
+		
+			<p:commandButton value="Habilitar Edição" id="btHabilitaEdicao" action="#{produtoController.habilitaEdicao}" ajax="false" rendered="#{produtoController.habilitaEdicao == false}" />
+			
+			<p:commandButton value="Inserir e Continuar" id="btInserir" action="#{produtoController.inserirProduto}" update="panel" ajax="false" rendered="#{produtoController.habilitaEdicao == true   &amp;&amp;   produtoController.exibeBotoesAlteracao == false}" /> &nbsp;&nbsp;
+			<p:commandButton value="Inserir" id="btInserirPesquisar" action="#{produtoController.inserirProdutoPesquisar}" update="panel" ajax="false" rendered="#{produtoController.habilitaEdicao == true   &amp;&amp;   produtoController.exibeBotoesAlteracao == false}" />
+			
+			<p:commandButton value="Alterar e Continuar" id="btAlterar" action="#{produtoController.atualizarProduto}" update="panel" ajax="false" rendered="#{produtoController.habilitaEdicao == true   &amp;&amp;   produtoController.exibeBotoesAlteracao == true}" /> &nbsp;&nbsp;
+			<p:commandButton value="Alterar" id="btAlterarPesquisar" action="#{produtoController.atualizarProdutoPesquisar}" update="panel" ajax="false" rendered="#{produtoController.habilitaEdicao == true   &amp;&amp;   produtoController.exibeBotoesAlteracao == true}" />
+			
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

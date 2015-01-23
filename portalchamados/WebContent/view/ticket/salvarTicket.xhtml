@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/principal.xhtml">
+	<ui:define name="conteudo">
+		<h:form> 
+			<p:panel id="panel" header="Informe os campos abaixo para salvar o registro ( * Obrigatórios ): " style="margin-bottom:10px;">
+				
+				<p:messages id="messages" />
+				
+				<h:panelGrid columns="2" cellpadding="10" columnClasses="coluna1, coluna2">
+					<h:outputText value="Número:" />
+					<h:outputText value="#{ticketController.ticket.numero}" />
+				
+					<h:outputText for="usuario" value="Atribuído Para: " />
+					<p:selectOneMenu id="usuario" value="#{ticketController.ticket.usuario}" converter="usuarioConverter" items="#{ticketController.listaUsuario}" rendered="#{ticketController.habilitaEdicao == true}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{ticketController.listaUsuario}" var="usuario" itemLabel="#{usuario.nome}"  />
+					</p:selectOneMenu>
+					<h:outputLabel value="#{ticketController.ticket.usuario.nome}" rendered="#{ticketController.habilitaEdicao == false}" />
+					
+					<h:panelGroup><h:outputLabel for="titulo" value="Título: " /><h:outputText value="*" rendered="#{ticketController.habilitaEdicao == true}" /></h:panelGroup>
+					<p:inputText id="titulo" value="#{ticketController.ticket.titulo}" size="119" label="Título" rendered="#{ticketController.habilitaEdicao == true}" />
+					<h:outputLabel value="#{ticketController.ticket.titulo}" rendered="#{ticketController.habilitaEdicao == false}" />
+					
+					<h:panelGroup><h:outputLabel for="descricao" value="Descrição: " /><h:outputText value="*" rendered="#{ticketController.habilitaEdicao == true}" /></h:panelGroup>
+					<p:inputTextarea rows="20" cols="120" id="descricao" value="#{ticketController.ticket.descricao}" label="Descrição" rendered="#{ticketController.habilitaEdicao == true}" />
+					<h:outputLabel value="#{ticketController.ticket.descricao}" rendered="#{ticketController.habilitaEdicao == false}" />
+				
+					<h:outputText for="tipoChamado" value="Tipo: " />
+					<p:selectOneMenu id="tipoChamado" value="#{ticketController.ticket.tipoChamado}" converter="tipoChamadoConverter" items="#{ticketController.listaTipoChamado}" rendered="#{ticketController.habilitaEdicao == true}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{ticketController.listaTipoChamado}" var="tipoChamado" itemLabel="#{tipoChamado.descricao}" />
+					</p:selectOneMenu>
+					<h:outputLabel value="#{ticketController.ticket.tipoChamado.descricao}" rendered="#{ticketController.habilitaEdicao == false}" />
+				
+					<h:outputText for="prioridade" value="Prioridade: " />
+					<p:selectOneMenu id="prioridade" value="#{ticketController.ticket.prioridade}" converter="prioridadeConverter" items="#{ticketController.listaPrioridade}" rendered="#{ticketController.habilitaEdicao == true}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{ticketController.listaPrioridade}" var="prioridade" itemLabel="#{prioridade.descricao}" />
+					</p:selectOneMenu>
+					<h:outputLabel value="#{ticketController.ticket.prioridade.descricao}" rendered="#{ticketController.habilitaEdicao == false}" />
+					
+					<h:outputText for="sistema" value="Sistema: " />
+					<p:selectOneMenu id="sistema" value="#{ticketController.ticket.sistema}" converter="sistemaConverter" items="#{ticketController.listaSistema}" rendered="#{ticketController.habilitaEdicao == true}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{ticketController.listaSistema}" var="sistema" itemLabel="#{sistema.descricao}" />
+					</p:selectOneMenu>
+					<h:outputLabel value="#{ticketController.ticket.sistema.descricao}" rendered="#{ticketController.habilitaEdicao == false}" />
+					
+					<h:outputText for="categoria" value="Categoria: " />
+					<p:selectOneMenu id="categoria" value="#{ticketController.ticket.categoria}" converter="ticketCategoriaConverter" items="#{ticketController.listaCategoria}" rendered="#{ticketController.habilitaEdicao == true}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{ticketController.listaCategoria}" var="categoria" itemLabel="#{categoria.descricao}"  />
+					</p:selectOneMenu>
+					<h:outputLabel value="#{ticketController.ticket.categoria.descricao}" rendered="#{ticketController.habilitaEdicao == false}" />
+					
+					<h:outputText for="subCategoria" value="Sub Categoria: " />
+					<p:selectOneMenu id="subCategoria" value="#{ticketController.ticket.subCategoria}" converter="ticketSubCategoriaConverter" items="#{ticketController.listaSubCategoria}" rendered="#{ticketController.habilitaEdicao == true}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{ticketController.listaSubCategoria}" var="subCategoria" itemLabel="#{subCategoria.descricao}"  />
+					</p:selectOneMenu>
+					<h:outputLabel value="#{ticketController.ticket.subCategoria.descricao}" rendered="#{ticketController.habilitaEdicao == false}" />
+					
+					<h:outputLabel for="solicitante" value="Solicitante: " />
+					<p:inputText id="solicitante" value="#{ticketController.ticket.solicitante}" size="50" label="Solicitante" rendered="#{ticketController.habilitaEdicao == true}" />
+					<h:outputLabel value="#{ticketController.ticket.solicitante}" rendered="#{ticketController.habilitaEdicao == false}" />
+					
+					<h:outputText for="setor" value="Setor: " />
+					<p:selectOneMenu id="setor" value="#{ticketController.ticket.setor}" converter="setorConverter" items="#{ticketController.listaSetor}" rendered="#{ticketController.habilitaEdicao == true}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{ticketController.listaSetor}" var="setor" itemLabel="#{setor.descricao}" />
+					</p:selectOneMenu>
+					<h:outputLabel value="#{ticketController.ticket.setor.descricao}" rendered="#{ticketController.habilitaEdicao == false}" />
+				
+					<h:outputText for="origem" value="Origem: " />
+					<p:selectOneMenu id="origem" value="#{ticketController.ticket.origemChamado}" converter="origemChamadoConverter" items="#{ticketController.listaOrigemChamado}" rendered="#{ticketController.habilitaEdicao == true}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{ticketController.listaOrigemChamado}" var="origemChamado" itemLabel="#{origemChamado.descricao}" />
+					</p:selectOneMenu>
+					<h:outputLabel value="#{ticketController.ticket.origemChamado.descricao}" rendered="#{ticketController.habilitaEdicao == false}" />
+					
+					<h:outputText for="dataVencimento" value="Data Vencimento: " />
+					<p:calendar value="#{ticketController.ticket.dataVencimento}" id="dataVencimento" showOn="button" navigator="true" label="Data" rendered="#{ticketController.habilitaEdicao == true}" />
+					<h:outputLabel value="#{ticketController.ticket.dataVencimento}" rendered="#{ticketController.habilitaEdicao == false}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputLabel>
+					
+					<h:outputText for="statusCopergas" value="Status Copergas: " />
+					<p:selectOneMenu id="statusCopergas" value="#{ticketController.ticket.statusCopergas}" converter="statusCopergasConverter" items="#{ticketController.listaStatusCopergas}" rendered="#{ticketController.habilitaEdicao == true}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{ticketController.listaStatusCopergas}" var="statusCopergas" itemLabel="#{statusCopergas.descricao}" />
+					</p:selectOneMenu>
+					<h:outputLabel value="#{ticketController.ticket.statusCopergas.descricao}" rendered="#{ticketController.habilitaEdicao == false}" />
+					
+					<h:outputText for="statusFornecedor" value="Status Fornecedor: " />
+					<p:selectOneMenu id="statusFornecedor" value="#{ticketController.ticket.statusFornecedor}" converter="statusFornecedorConverter" items="#{ticketController.listaStatusFornecedor}" rendered="#{ticketController.habilitaEdicao == true}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{ticketController.listaStatusFornecedor}" var="statusFornecedor" itemLabel="#{statusFornecedor.descricao}" />
+					</p:selectOneMenu>
+					<h:outputLabel value="#{ticketController.ticket.statusFornecedor.descricao}" rendered="#{ticketController.habilitaEdicao == false}" />
+ 							
+ 					<h:outputText for="tipoAtendimento" value="Tipo Atendimento: " />
+					<p:selectOneMenu id="tipoAtendimento" value="#{ticketController.ticket.tipoAtendimento}" converter="tipoAtendimentoConverter" items="#{ticketController.listaTipoAtendimento}" rendered="#{ticketController.habilitaEdicao == true}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems value="#{ticketController.listaTipoAtendimento}" var="tipoAtendimento" itemLabel="#{tipoAtendimento.descricao}" />
+					</p:selectOneMenu>
+					<h:outputLabel value="#{ticketController.ticket.tipoAtendimento.descricao}" rendered="#{ticketController.habilitaEdicao == false}" />
+				
+				</h:panelGrid>
+			</p:panel>
+			
+			<br />
+			
+			<p:commandButton value="Cancelar" id="btCancelar" action="#{ticketController.cancelar}" ajax="false" />&nbsp;&nbsp; 
+			<p:commandButton value="Limpar" update="panel" id="btLimpar" action="#{ticketController.limparTelaCadastro}" ajax="false" rendered="#{ticketController.habilitaEdicao == true}" />
+
+			&nbsp;&nbsp; | &nbsp;&nbsp;
+		
+			<p:commandButton value="Habilitar Edição" id="btHabilitaEdicao" action="#{ticketController.habilitaEdicao}" ajax="false" rendered="#{ticketController.habilitaEdicao == false}" />
+			
+			<p:commandButton value="Inserir e Continuar" id="btInserir" action="#{ticketController.inserirTicket}" update="panel" ajax="false" rendered="#{ticketController.habilitaEdicao == true   &amp;&amp;   ticketController.exibeBotoesAlteracao == false}" /> &nbsp;&nbsp;
+			<p:commandButton value="Inserir" id="btInserirPesquisar" action="#{ticketController.inserirTicketPesquisar}" update="panel" ajax="false" rendered="#{ticketController.habilitaEdicao == true   &amp;&amp;   ticketController.exibeBotoesAlteracao == false}" />
+			
+			<p:commandButton value="Alterar e Continuar" id="btAlterar" action="#{ticketController.atualizarTicket}" update="panel" ajax="false" rendered="#{ticketController.habilitaEdicao == true   &amp;&amp;   ticketController.exibeBotoesAlteracao == true}" /> &nbsp;&nbsp;
+			<p:commandButton value="Alterar" id="btAlterarPesquisar" action="#{ticketController.atualizarTicketPesquisar}" update="panel" ajax="false" rendered="#{ticketController.habilitaEdicao == true   &amp;&amp;   ticketController.exibeBotoesAlteracao == true}" />
+			
+			<br /><br /><br /><br /><br /><br />
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

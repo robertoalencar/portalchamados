@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/WEB-INF/templates/principal.xhtml">
+	<ui:define name="conteudo">
+		<h:form>
+			<p:accordionPanel multiple="true" activeIndex="0,0,0,0">  
+    			<p:tab title="Total de ABERTOS x FECHADOS no mês de referência">
+    				<h:panelGrid columns="2" cellspacing="10" columnClasses="coluna1, coluna2">
+
+						<h:panelGroup>
+							<b><h:outputText value="Data da última importação:" /></b>
+						</h:panelGroup>
+						<h:panelGroup>
+							<b>
+								<h:outputText value="#{importacaoTicketController.registroImportacao.dataUltimaImportacao}">
+									<f:convertDateTime pattern="dd/MM/yyyy hh:mm:ss" locale="pt,BR" timeZone="America/Recife" />
+								</h:outputText>
+							</b>
+						</h:panelGroup>
+
+						<h:outputText value="Ano de Referência: " />  
+				        <p:selectOneMenu value="#{indicadoresController.anoReferencia}" id="listaAnoReferencia">  
+				            <f:selectItem itemLabel="2014" itemValue="2014" />  
+				            <f:selectItem itemLabel="2013" itemValue="2013" />  
+				            <f:selectItem itemLabel="2012" itemValue="2012" />  
+				            <f:selectItem itemLabel="2011" itemValue="2011" />  
+				            <f:selectItem itemLabel="2010" itemValue="2010" />
+
+							<p:ajax update="totalAbertos, totalFechados, qtdTotalGeral" event="change" listener="#{indicadoresController.calculaAbertosFechados}" process="listaMesReferencia, listaAnoReferencia" />				            
+				        </p:selectOneMenu>
+
+						<h:outputText value="Mês de Referência: " />  
+				        <p:selectOneMenu value="#{indicadoresController.mesReferencia}" id="listaMesReferencia">  
+				            <f:selectItem itemLabel="Janeiro" itemValue="0" />  
+				            <f:selectItem itemLabel="Fevereiro" itemValue="1" />  
+				            <f:selectItem itemLabel="Março" itemValue="2" />  
+				            <f:selectItem itemLabel="Abril" itemValue="3" />  
+				            <f:selectItem itemLabel="Maio" itemValue="4" />
+				            <f:selectItem itemLabel="Junho" itemValue="5" />
+				            <f:selectItem itemLabel="Julho" itemValue="6" />
+				            <f:selectItem itemLabel="Agosto" itemValue="7" />
+				            <f:selectItem itemLabel="Setembro" itemValue="8" />
+				            <f:selectItem itemLabel="Outubro" itemValue="9" />
+				            <f:selectItem itemLabel="Novembro" itemValue="10" />
+				            <f:selectItem itemLabel="Dezembro" itemValue="11" />
+
+				            <p:ajax update="totalAbertos, totalFechados" event="change" listener="#{indicadoresController.calculaAbertosFechados}" process="listaMesReferencia, listaAnoReferencia" />
+				        </p:selectOneMenu>
+						
+						<h:outputText value="QTD de Abertos:" />
+						<h:outputText value="#{indicadoresController.totalAbertos}" id="totalAbertos" />
+	
+						<h:outputText value="QTD de Fechados:" />
+						<h:outputText value="#{indicadoresController.totalFechados}" id="totalFechados" />
+						
+					</h:panelGrid>
+    			</p:tab>
+    			<p:tab title="Totais de chamados abertos POR SETOR na data da última importação:">
+					<h:panelGrid columns="2" cellspacing="10" columnClasses="coluna1, coluna2">
+						<h:panelGroup>
+							<b><h:outputText value="Total Geral" /></b>
+						</h:panelGroup>
+						<h:panelGroup>
+							<b><h:outputText id="qtdTotalGeral" value="#{indicadoresController.qtdTotalGeral}" /></b>
+						</h:panelGroup>
+					
+						<h:outputText value="GERE" />
+						<h:outputText value="#{indicadoresController.qtdGERE}" />
+						
+						<h:outputText value="GDIS" />
+						<h:outputText value="#{indicadoresController.qtdGDIS}" />
+						
+						<h:outputText value="GFIN" />
+						<h:outputText value="#{indicadoresController.qtdGFIN}" />
+						
+						<h:outputText value="GETI" />
+						<h:outputText value="#{indicadoresController.qtdGETI}" />
+						
+						<h:outputText value="GCRC" />
+						<h:outputText value="#{indicadoresController.qtdGCRC}" />
+						
+						<h:outputText value="GMAR" />
+						<h:outputText value="#{indicadoresController.qtdGMAR}" />
+						
+						<h:outputText value="GADS" />
+						<h:outputText value="#{indicadoresController.qtdGADS}" />
+						
+						<h:outputText value="DAF" />
+						<h:outputText value="#{indicadoresController.qtdDAF}" />
+						
+						<h:outputText value="GERH" />
+						<h:outputText value="#{indicadoresController.qtdGERH}" />
+						
+						<h:outputText value="COMUN" />
+						<h:outputText value="#{indicadoresController.qtdCOMUN}" />
+						
+						<h:outputText value="PRE" />
+						<h:outputText value="#{indicadoresController.qtdPRE}" />
+						
+						<h:outputText value="QSMS" />
+						<h:outputText value="#{indicadoresController.qtdQSMS}" />
+						
+						<h:outputText value="GCVI" />
+						<h:outputText value="#{indicadoresController.qtdGCVI}" />
+						
+						<h:outputText value="CJUR" />
+						<h:outputText value="#{indicadoresController.qtdCJUR}" />
+						
+						<h:outputText value="DTC" />
+						<h:outputText value="#{indicadoresController.qtdDTC}" />
+						
+						<h:outputText value="CAF" />
+						<h:outputText value="#{indicadoresController.qtdCAF}" />
+						
+						<h:outputText value="SEGE" />
+						<h:outputText value="#{indicadoresController.qtdSEGE}" />
+						
+						<h:outputText value="GCON" />
+						<h:outputText value="#{indicadoresController.qtdGCON}" />
+						
+						<h:outputText value="Não Informado" />
+						<h:panelGroup>
+							<h:outputText value="#{indicadoresController.qtdNaoInformadoSetor}" /> &nbsp;&nbsp;
+							<h:outputText value=":" /> &nbsp;&nbsp;
+							<h:outputText value="#{indicadoresController.chamadosSetorNaoInformado}" />
+						</h:panelGroup>
+					</h:panelGrid>
+    			</p:tab>
+    			<p:tab title="Totais de chamados abertos POR SISTEMA na data da última importação:">
+					<h:panelGrid columns="2" cellspacing="10" columnClasses="coluna1, coluna2">
+						<h:panelGroup>
+							<b><h:outputText value="Total Geral" /></b>
+						</h:panelGroup>
+						<h:panelGroup>
+							<b><h:outputText value="#{indicadoresController.qtdTotalGeral}" /></b>
+						</h:panelGroup>
+					
+						<h:outputText value="ERP" />
+						<h:outputText value="#{indicadoresController.qtdERP}" />
+						
+						<h:outputText value="Unigás" />
+						<h:outputText value="#{indicadoresController.qtdUnigas}" />
+						
+						<h:outputText value="SGM" />
+						<h:outputText value="#{indicadoresController.qtdSGM}" />
+						
+						<h:outputText value="SE-Suit" />
+						<h:outputText value="#{indicadoresController.qtdSESuit}" />
+						
+						<h:outputText value="Pini Volare" />
+						<h:outputText value="#{indicadoresController.qtdVolare}" />
+						
+						<h:outputText value="Geogás" />
+						<h:outputText value="#{indicadoresController.qtdGeogas}" />
+						
+						<h:outputText value="Supervisorio" />
+						<h:outputText value="#{indicadoresController.qtdSupervisorio}" />
+						
+						<h:outputText value="Site Copergás" />
+						<h:outputText value="#{indicadoresController.qtdSite}" />
+						
+						<h:outputText value="Nasajon" />
+						<h:outputText value="#{indicadoresController.qtdNasajon}" />
+						
+						<h:outputText value="iPirâmide" />
+						<h:outputText value="#{indicadoresController.qtdIPiramide}" />
+						
+						<h:outputText value="Não Informado" />
+						<h:outputText value="#{indicadoresController.qtdNaoInformado}" />
+						
+					</h:panelGrid>
+    			</p:tab>
+    		</p:accordionPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,86 @@
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;;
+}
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+.ui-widget, .ui-widget .ui-widget {
+    font-size: 11px !important;
+}
+
+
+
+.loginPanel.ui-panel, .loginPanel.ui-panel-content {
+    border: 0;
+    padding: 0.5em 1em;
+    width: 100%;
+    font-weight: bold;
+}
+.indexColunaEsquerda {
+	width: 60%;
+	text-align: center;
+}
+.indexColunaDireita {
+	width: 40%;
+}
+
+
+
+
+.colunaDireita {
+	text-align: left;
+}
+.colunaEsquerda {
+	text-align: right;
+}
+.colunaBotoesEsquerda {
+	text-align: left;
+}
+.colunaBotoesDireita {
+	text-align: right;
+}
+
+
+
+.textoRodape {
+	font-size: 10px;
+	color: gray;
+}
+.textoExemplo {
+	font-size: 10px;
+	color: gray;
+	font-style:italic;	
+}
+.textoBreadCrumb {
+	font-size: 12px;
+	color: red;
+	font-weight: bold;
+}
+
+
+
+a {  
+	font-size: 10px;
+	text-decoration: none;
+}
+a:hover {
+	font-size: 10px;
+	text-decoration: underline;
+}
+
+
+
+
+.containerNorth { 
+	border: none !important;
+	margin: 0 0 0;
+}
+.containerSouth { 
+	border: none !important; 
+	margin: 0 0 0 ; 
+} 
+.semBordas { 
+	border: none !important;
+}
+

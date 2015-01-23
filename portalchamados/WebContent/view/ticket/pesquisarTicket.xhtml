@@ -1,0 +1,444 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/principal.xhtml">
+	<ui:define name="conteudo">
+		<h:form> 
+			<p:accordionPanel multiple="true" activeIndex="0,1,0,0">  
+    			<p:tab title="Filtro">
+					<p:panel id="panel" header="Informe os seguintes filtros para pesquisar: " style="margin-bottom:10px;">
+						<p:messages id="messages" />
+						<h:panelGrid columns="2" cellspacing="10" columnClasses="coluna1, coluna2">
+								
+							<h:outputLabel for="numero" value="Número: " />
+							<p:inputText id="numero" value="#{ticketController.ticket.numero}" maxlength="10" size="10">
+					    		<p:ajax event="keyup" update="lista, totalRegistros" listener="#{ticketController.pesquisar}" />
+					    	</p:inputText>
+						    
+						    <h:outputLabel for="titulo" value="Título: " />
+							<p:inputText id="titulo" value="#{ticketController.ticket.titulo}" size="90">
+				                <p:ajax event="keyup" update="lista, totalRegistros" listener="#{ticketController.pesquisar}" />
+				            </p:inputText>
+							
+							<h:outputText for="status" value="Status: " />
+							<p:selectOneMenu id="status" value="#{ticketController.ticket.status}" converter="statusConverter" items="#{ticketController.listaStatus}">
+								<f:selectItem itemLabel="" itemValue="" />
+								<f:selectItems value="#{ticketController.listaStatus}" var="status" itemLabel="#{status.descricao}"  />
+							</p:selectOneMenu>
+							
+				            <h:outputText for="usuario" value="Atribuído Para: " />
+							<p:selectOneMenu id="usuario" value="#{ticketController.ticket.usuario}" converter="usuarioConverter" items="#{ticketController.listaUsuario}">
+								<f:selectItem itemLabel="" itemValue="" />
+								<f:selectItems value="#{ticketController.listaUsuario}" var="usuario" itemLabel="#{usuario.nome}"  />
+							</p:selectOneMenu>
+							
+						</h:panelGrid>
+						<p:accordionPanel activeIndex="0,0">  
+    						<p:tab title="por datas" >
+    							<p:panel id="paneDataCriacao" style="margin-bottom:10px;">
+	    							<h:panelGrid columns="2" cellspacing="10" columnClasses="coluna1, coluna2" >
+										<h:panelGroup>
+											<h:outputText for="dataInicial" value="Data de Criação -" />
+										</h:panelGroup>
+										<h:panelGroup>
+											&nbsp;
+											<h:outputText for="dataInicial" value="Inicial: " />
+											&nbsp;
+											<p:calendar value="#{ticketController.dataInicial}" id="dataInicial" showOn="button" navigator="true" />
+											&nbsp;
+											<h:outputText for="dataFinal" value="Final: " />
+											&nbsp;
+											<p:calendar value="#{ticketController.dataFinal}" id="dataFinal" showOn="button" navigator="true" />
+											&nbsp;
+											<p:commandButton value="Hoje" id="btHoje" action="#{ticketController.preencherDataAtualCadastro}" update="dataInicial, dataFinal" />
+											&nbsp;
+											<p:commandButton value="Semana Atual" id="btSemanaAtual" action="#{ticketController.preencherSemanaAtualCadastro}" update="dataInicial, dataFinal" />
+											&nbsp;
+											<p:commandButton value="Mês Atual" id="btMesAtual" action="#{ticketController.preencherMesAtualCadastro}" update="dataInicial, dataFinal" />
+										</h:panelGroup>
+									</h:panelGrid>
+								</p:panel>
+    							<p:panel id="panelDataVencimento" style="margin-bottom:10px;">
+    								<h:panelGrid columns="2" cellspacing="10" columnClasses="coluna1, coluna2" >
+   										<h:panelGroup>
+											<h:outputText for="dataInicialVencimento" value="Data de Vencimento - " />
+										</h:panelGroup>
+										<h:panelGroup>
+											&nbsp;
+											<h:outputText for="dataInicialVencimento" value="Inicial: " />
+											&nbsp;
+											<p:calendar value="#{ticketController.dataInicialVencimento}" id="dataInicialVencimento" showOn="button" navigator="true" />
+											&nbsp;  
+											<h:outputText for="dataFinalVencimento" value="Final: " />
+											&nbsp;
+											<p:calendar value="#{ticketController.dataFinalVencimento}" id="dataFinalVencimento" showOn="button" navigator="true" />
+											&nbsp;
+											<p:commandButton value="Hoje" id="btHojeVencimento" action="#{ticketController.preencherDataAtualVencimento}" update="dataInicialVencimento, dataFinalVencimento" />
+											&nbsp;
+											<p:commandButton value="Semana Atual" id="btSemanaAtualVencimento" action="#{ticketController.preencherSemanaAtualVencimento}" update="dataInicialVencimento, dataFinalVencimento" />
+											&nbsp;
+											<p:commandButton value="Mês Atual" id="btMesAtualVencimento" action="#{ticketController.preencherMesAtualVencimento}" update="dataInicialVencimento, dataFinalVencimento" />
+										</h:panelGroup>
+									</h:panelGrid>
+								</p:panel>
+								<p:panel id="panelDataFechamento" style="margin-bottom:10px;">
+    								<h:panelGrid columns="2" cellspacing="10" columnClasses="coluna1, coluna2" >
+    									<h:panelGroup>
+											<h:outputText for="dataInicialFechamento" value="Data Fechamento - " />
+										</h:panelGroup>
+										<h:panelGroup>
+											&nbsp;
+											<h:outputText for="dataInicialFechamento" value="Inicial: " />
+											&nbsp;
+											<p:calendar value="#{ticketController.dataInicialFechamento}" id="dataInicialFechamento" showOn="button" navigator="true" />  
+											&nbsp;
+											<h:outputText for="dataFinalFechamento" value="Final: " />
+											&nbsp;
+											<p:calendar value="#{ticketController.dataFinalFechamento}" id="dataFinalFechamento" showOn="button" navigator="true" />
+											&nbsp;
+											<p:commandButton value="Hoje" id="btHojeFechamento" action="#{ticketController.preencherDataAtualFechamento}" update="dataInicialFechamento, dataFinalFechamento" />
+											&nbsp;
+											<p:commandButton value="Semana Atual" id="btSemanaAtualFechamento" action="#{ticketController.preencherSemanaAtualFechamento}" update="dataInicialFechamento, dataFinalFechamento" />
+											&nbsp;
+											<p:commandButton value="Mês Atual" id="btMesAtualFechamento" action="#{ticketController.preencherMesAtualFechamento}" update="dataInicialFechamento, dataFinalFechamento" />
+										</h:panelGroup>
+									</h:panelGrid>
+								</p:panel>
+    						</p:tab>
+    						<p:tab title="outros" >
+    							<h:panelGrid columns="2" cellspacing="10" columnClasses="coluna1, coluna2" >
+    								<h:outputText for="sistema" value="Sistema: " />
+									<p:selectOneMenu id="sistema" value="#{ticketController.ticket.sistema}" converter="sistemaConverter" items="#{ticketController.listaSistema}">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems value="#{ticketController.listaSistema}" var="sistema" itemLabel="#{sistema.descricao}" />
+									</p:selectOneMenu>
+								
+   									<h:outputText for="categoria" value="Categoria: " />
+									<p:selectOneMenu id="categoria" value="#{ticketController.ticket.categoria}" converter="ticketCategoriaConverter" items="#{ticketController.listaCategoria}">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems value="#{ticketController.listaCategoria}" var="categoria" itemLabel="#{categoria.descricao}"  />
+									</p:selectOneMenu>
+									
+									<h:outputText for="subCategoria" value="SubCategoria: " />
+									<p:selectOneMenu id="subCategoria" value="#{ticketController.ticket.subCategoria}" converter="ticketSubCategoriaConverter" items="#{ticketController.listaSubCategoria}">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems value="#{ticketController.listaSubCategoria}" var="subCategoria" itemLabel="#{subCategoria.descricao}"  />
+									</p:selectOneMenu>
+								
+									<h:outputText for="setor" value="Setor: " />
+									<p:selectOneMenu id="setor" value="#{ticketController.ticket.setor}" converter="setorConverter" items="#{ticketController.listaSetor}">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems value="#{ticketController.listaSetor}" var="setor" itemLabel="#{setor.descricao}" />
+									</p:selectOneMenu>
+								
+									<h:outputText for="origem" value="Origem: " />
+									<p:selectOneMenu id="origem" value="#{ticketController.ticket.origemChamado}" converter="origemChamadoConverter" items="#{ticketController.listaOrigemChamado}">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems value="#{ticketController.listaOrigemChamado}" var="origemChamado" itemLabel="#{origemChamado.descricao}" />
+									</p:selectOneMenu>
+									
+									<h:outputLabel for="descricao" value="Descrição: " />
+									<p:inputText id="descricao" value="#{ticketController.ticket.descricao}" size="100" />
+									
+									<h:outputText for="tipoChamado" value="Tipo: " />
+									<p:selectOneMenu id="tipoChamado" value="#{ticketController.ticket.tipoChamado}" converter="tipoChamadoConverter" items="#{ticketController.listaTipoChamado}">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems value="#{ticketController.listaTipoChamado}" var="tipoChamado" itemLabel="#{tipoChamado.descricao}" />
+									</p:selectOneMenu>
+									
+									<h:outputText for="statusCopergas" value="Status Copergas: " />
+									<p:selectOneMenu id="statusCopergas" value="#{ticketController.ticket.statusCopergas}" converter="statusCopergasConverter" items="#{ticketController.listaStatusCopergas}">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems value="#{ticketController.listaStatusCopergas}" var="statusCopergas" itemLabel="#{statusCopergas.descricao}" />
+									</p:selectOneMenu>
+									
+									<h:outputText for="statusFornecedor" value="Status Fornecedor: " />
+									<p:selectOneMenu id="statusFornecedor" value="#{ticketController.ticket.statusFornecedor}" converter="statusFornecedorConverter" items="#{ticketController.listaStatusFornecedor}">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems value="#{ticketController.listaStatusFornecedor}" var="statusFornecedor" itemLabel="#{statusFornecedor.descricao}" />
+									</p:selectOneMenu>
+	    							
+	    							<h:outputText for="tipoAtendimento" value="Tipo Atendimento: " />
+									<p:selectOneMenu id="tipoAtendimento" value="#{ticketController.ticket.tipoAtendimento}" converter="tipoAtendimentoConverter" items="#{ticketController.listaTipoAtendimento}">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems value="#{ticketController.listaTipoAtendimento}" var="tipoAtendimento" itemLabel="#{tipoAtendimento.descricao}" />
+									</p:selectOneMenu>
+								
+									<h:outputText for="prioridade" value="Prioridade: " />
+									<p:selectOneMenu id="prioridade" value="#{ticketController.ticket.prioridade}" converter="prioridadeConverter" items="#{ticketController.listaPrioridade}">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems value="#{ticketController.listaPrioridade}" var="prioridade" itemLabel="#{prioridade.descricao}" />
+									</p:selectOneMenu>
+									
+    							</h:panelGrid>
+    						</p:tab>
+    					</p:accordionPanel>
+					</p:panel>
+
+					<p:commandButton value="Limpar" update="panel, lista, totalRegistros, display, graficosPizza, graficosLinha" id="btLimpar" action="#{ticketController.limpar}" /> &nbsp;&nbsp;
+					<p:commandButton value="Pesquisar" update="panel, lista, totalRegistros, display, graficosPizza, graficosLinha" id="btPesquisar" action="#{ticketController.pesquisar}" />
+
+    			</p:tab>
+    			<p:tab title="listagem">
+					<p:commandButton title="Detalhar Item" id="btDetalhar" update="display" icon="ui-icon-search" />&nbsp;&nbsp;
+					<p:commandButton title="Inserir Item" id="btInserir" action="salvarTicket" icon="ui-icon-document" />&nbsp;&nbsp;
+					<p:commandButton title="Alterar Item" id="btAlterar" action="#{ticketController.exibirTelaAtualizacao}" icon="ui-icon-pencil" />&nbsp;&nbsp;
+					<p:commandButton title="Remover Item" id="btRemover" onclick="itemDialog.show();" update="dialog" icon="ui-icon-close" />
+					<br /><br />
+					<p:dataTable id="lista" var="obj" value="#{ticketController.listaTicket}" rows="10" paginator="true" 
+		        		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+		        		rowsPerPageTemplate="10,25,50,10000000" paginatorPosition="bottom" emptyMessage="Nenhum registro cadastrado."
+		        		rowKey="#{obj.chavePrimaria}" selection="#{ticketController.ticketSelecionado}" selectionMode="single">
+
+				        <p:column headerText="Número" style="width:7%; text-align: center" sortBy="#{obj.numero}">
+				        	<h:outputText value="#{obj.numero}" />
+				        </p:column>
+				        <p:column headerText="Título" style="width:30%;" sortBy="#{obj.titulo}">
+				            <h:outputText value="#{obj.titulo}" />  
+				        </p:column>
+				        <p:column headerText="Atribuído Para" style="width:15%;" sortBy="#{obj.usuario.nome}">
+				            <h:outputText value="#{obj.usuario.nome}" />
+				        </p:column>
+				        <p:column headerText="DT Criação" style="width:10%; text-align: center" sortBy="#{obj.dataCriacao}">
+				            <h:outputText value="#{obj.dataCriacao}">
+				            	<f:convertDateTime pattern="dd/MM/yyyy" />
+				            </h:outputText>  
+				        </p:column>
+				        <p:column headerText="DT Vencimento" style="width:10%; text-align: center" sortBy="#{obj.dataVencimento}">
+				            <h:outputText value="#{obj.dataVencimento}">
+				            	<f:convertDateTime pattern="dd/MM/yyyy" />
+				            </h:outputText>  
+				        </p:column>
+				        <p:column headerText="DT Fechamento" style="width:10%; text-align: center" sortBy="#{obj.dataFechamento}">
+				            <h:outputText value="#{obj.dataFechamento}">
+				            	<f:convertDateTime pattern="dd/MM/yyyy" />
+				            </h:outputText>  
+				        </p:column>
+				        <p:column headerText="Status" style="width:8%; text-align: center" sortBy="#{obj.status.decricao}">
+				            <h:outputText value="#{obj.status.descricao}" />
+				        </p:column>
+				        <p:column headerText="ULtrapassou SLA" style="width:8%; text-align: center" sortBy="#{obj.ultrapassouSLA}">
+				        	
+				            <h:outputText value="#{obj.ultrapassouSLA}" />
+				        </p:column>
+				    </p:dataTable>
+				    
+				    <h:outputText id="totalRegistros" value="Total de Registros: #{ticketController.listaTicket.size()}" />
+				    
+				    <p:dialog header="Você confirma a exclusão do item ?" widgetVar="itemDialog" width="500" showEffect="clip" hideEffect="clip">
+				        <h:panelGrid id="dialog" columns="2" cellpadding="4">
+				            <h:outputText value="#{ticketController.ticketSelecionado}" />
+				        </h:panelGrid>
+						<br />
+				        <div align="center">
+				        	<p:commandButton value="Sim" id="btConfirmaExclusao" action="#{ticketController.removerTicket}" onclick="itemDialog.hide();" update="messages,lista" ajax="false" />&nbsp;&nbsp;
+				        	<p:commandButton value="Não" id="btRejeitaExclusao" onclick="itemDialog.hide();" update="messages,lista" />
+				        </div>
+				    </p:dialog>
+    			</p:tab>
+    			<p:tab title="Detalhe">
+    				<h:panelGrid id="display" columns="2" cellspacing="20" columnClasses="coluna1, coluna2">
+			        	<h:outputText value="Número:" />
+           				<h:outputText value="#{ticketController.ticketSelecionado.numero}" />
+			        	
+			        	<h:outputText value="Prioridade:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.prioridade.descricao}" />
+           				
+			        	<h:outputText value="Status:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.status.descricao}" />
+			        	
+			        	<h:outputText value="Título:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.titulo}" />
+           				
+           				<h:outputText value="Atribuído Para:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.usuario.nome}" />
+           				
+           				<h:outputText value="Data de Criação:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.dataCriacao}">
+           					<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-03:00"/>  
+           				</h:outputText>
+           				
+           				<h:outputText value="Dias em Aberto:" />
+           				<h:outputText value="#{ticketController.ticketSelecionado.qtdDiasAbertos}" />
+           				
+           				<h:outputText value="Data de Vencimento:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.dataVencimento}">
+           					<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-03:00"/>
+           				</h:outputText>
+           				
+           				<h:outputText value="Dias até o Vencimento:" />
+           				<h:outputText value="#{ticketController.ticketSelecionado.qtdDiasParaVencimento}" />
+           				
+           				<h:outputText value="Data de Fechamento:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.dataFechamento}">
+           					<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-03:00"/>
+           				</h:outputText>
+           				
+           				<h:outputText value="Ultrapassou o SLA ?" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.ultrapassouSLA ? 'Sim' : 'Não'}" /> 
+           				
+           				<h:outputText value="Máquina Origem:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.maquinaOrigem}" />
+           				
+           				<h:outputText value="Sistema:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.sistema.descricao}" />
+           				
+           				<h:outputText value="Categoria:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.categoria.descricao}" />
+           				
+           				<h:outputText value="Sub Categoria:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.subCategoria.descricao}" />
+           				
+           				<h:outputText value="Setor:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.setor.descricao}" />
+           				
+           				<h:outputText value="Origem:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.origemChamado.descricao}" />
+           				
+           				<h:outputText value="Solicitante:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.solicitante}" />
+           				
+           				<h:outputText value="Fechamento Encaminhado ?" />
+           				<h:panelGroup>
+           					<h:outputText value="Sim" rendered="#{ticketController.ticketSelecionado.fechamentoEncaminhado == true}" />
+           					<h:outputText value="Não" rendered="#{ticketController.ticketSelecionado.fechamentoEncaminhado == false}" />
+           				</h:panelGroup>
+           				
+           				<h:outputText value="Tipo:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.tipoChamado.descricao}" />
+           				
+           				<h:outputText value="Status Copergás:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.statusCopergas.descricao}" />
+           				
+           				<h:outputText value="Status Fornecedor:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.statusFornecedor.descricao}" />
+           				
+           				<h:outputText value="Foi Reaberto ?" />
+           				<h:panelGroup>
+           					<h:outputText value="Sim" rendered="#{ticketController.ticketSelecionado.foiReaberto == true}" />
+           					<h:outputText value="Não" rendered="#{ticketController.ticketSelecionado.foiReaberto == false}" />
+           				</h:panelGroup>
+           				
+           				<h:outputText value="Tipo de Atendimento:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.tipoAtendimento.descricao}" />
+           				
+           				<h:outputText value="Descrição:" />  
+           				<h:outputText value="#{ticketController.ticketSelecionado.descricao}" />
+					</h:panelGrid>
+    			</p:tab>
+    			<p:tab title="Gráficos Por Categorias">
+    				<h:panelGrid id="graficosPizza" columns="3" cellspacing="10" style="width:100%;">
+ 						 
+ 						<h:panelGroup>
+               				<p:pieChart id="porSistema" value="#{ticketController.graficoPorSistema}" legendPosition="e" fill="false" showDataLabels="true"  
+                				title="Por Sistema" style="width:550px; height:550px" sliceMargin="5" diameter="300" />
+ 						</h:panelGroup>
+ 						
+ 						<h:panelGroup>
+               				<p:pieChart id="porStatusCopergas" value="#{ticketController.graficoPorStatusCopergas}" legendPosition="e" fill="false" showDataLabels="true"  
+                				title="Por Status da Copergás" style="width:550px; height:550px" sliceMargin="5" diameter="230" />
+ 						</h:panelGroup>
+ 						
+ 						<h:panelGroup>
+               				<p:pieChart id="porStatusFornecedor" value="#{ticketController.graficoPorStatusFornecedor}" legendPosition="e" fill="false" showDataLabels="true"  
+                				title="Por Status do Fornecedor" style="width:550px; height:550px" sliceMargin="5" diameter="300" />
+ 						</h:panelGroup>
+ 						 
+						<h:panelGroup>
+							<p:pieChart id="porTipoAtendimento" value="#{ticketController.graficoPorTipoAtendimento}" legendPosition="e" fill="false" showDataLabels="true"  
+	                			title="Por Tipo de Atendimento" style="width:550px; height:550px" sliceMargin="5" diameter="300" />
+ 						</h:panelGroup>
+ 						
+ 						<h:panelGroup>
+               				<p:pieChart id="porSetor" value="#{ticketController.graficoPorSetor}" legendPosition="e" fill="false" showDataLabels="true"  
+                				title="Por Setor" style="width:550px; height:550px" sliceMargin="5" diameter="300" />
+ 						</h:panelGroup>
+ 						
+ 						<h:panelGroup>
+               				<p:pieChart id="porOrigemChamado" value="#{ticketController.graficoPorOrigemChamado}" legendPosition="e" fill="false" showDataLabels="true"  
+                				title="Por Origem de Chamado" style="width:550px; height:550px" sliceMargin="5" diameter="300" />
+ 						</h:panelGroup>
+ 						
+ 						<h:panelGroup>
+               				<p:pieChart id="porTipo" value="#{ticketController.graficoPorTipo}" legendPosition="e" fill="false" showDataLabels="true"  
+                				title="Por Tipo" style="width:550px; height:550px" sliceMargin="5" diameter="230" />
+ 						</h:panelGroup>
+ 						
+ 						<h:panelGroup>
+               				<p:pieChart id="porPrioridade" value="#{ticketController.graficoPorPrioridade}" legendPosition="e" fill="false" showDataLabels="true"  
+                				title="Por Prioridade" style="width:550px; height:550px" sliceMargin="5" diameter="300" />
+ 						</h:panelGroup>
+ 						
+ 						<h:panelGroup>
+               				<p:pieChart id="porDataVencimento" value="#{ticketController.graficoPorDataVencimento}" legendPosition="e" fill="false" showDataLabels="true"  
+                				title="Por Data de Vencimento" style="width:550px; height:550px" sliceMargin="5" diameter="300" />
+ 						</h:panelGroup>
+ 						
+ 						<h:panelGroup>
+               				<p:pieChart id="porSLA" value="#{ticketController.graficoSLA}" legendPosition="e" fill="false" showDataLabels="true"  
+                				title="Acompanhamento SLA" style="width:550px; height:550px" sliceMargin="5" diameter="300" />
+ 						</h:panelGroup>
+ 						
+					</h:panelGrid>
+    			</p:tab>
+    			<p:tab title="Gráficos de Produtividade">
+    				<h:panelGrid id="graficosLinha" columns="2" cellspacing="10" style="width:100%;" >
+					
+						<h:panelGroup>
+							<h:outputText value="Semana de Referência: " />  
+					        <p:selectOneMenu value="#{ticketController.semanaReferencia}" id="listaSemanaReferencia">  
+					            <f:selectItem itemLabel="1a. Semana" itemValue="1" />  
+					            <f:selectItem itemLabel="2a. Semana" itemValue="2" />  
+					            <f:selectItem itemLabel="3a. Semana" itemValue="3" />  
+					            <f:selectItem itemLabel="4a. Semana" itemValue="4" />  
+					            <f:selectItem itemLabel="5a. Semana" itemValue="5" />
+					            
+					            <p:ajax update="graficosLinha" event="change" listener="#{ticketController.gerarGraficoAbertosFechadosSemana}" process="listaSemanaReferencia" />
+					        </p:selectOneMenu>
+						</h:panelGroup>
+					
+						<h:panelGroup>
+							<h:outputText value="Mês de Referência: " />  
+					        <p:selectOneMenu value="#{ticketController.mesReferencia}" id="listaMesReferencia">  
+					            <f:selectItem itemLabel="Janeiro" itemValue="0" />  
+					            <f:selectItem itemLabel="Fevereiro" itemValue="1" />  
+					            <f:selectItem itemLabel="Março" itemValue="2" />  
+					            <f:selectItem itemLabel="Abril" itemValue="3" />  
+					            <f:selectItem itemLabel="Maio" itemValue="4" />
+					            <f:selectItem itemLabel="Junho" itemValue="5" />
+					            <f:selectItem itemLabel="Julho" itemValue="6" />
+					            <f:selectItem itemLabel="Agosto" itemValue="7" />
+					            <f:selectItem itemLabel="Setembro" itemValue="8" />
+					            <f:selectItem itemLabel="Outubro" itemValue="9" />
+					            <f:selectItem itemLabel="Novembro" itemValue="10" />
+					            <f:selectItem itemLabel="Dezembro" itemValue="11" />
+					            
+					            <p:ajax update="graficosLinha" event="change" listener="#{ticketController.gerarGraficoAbertosFechadosMes}" process="listaMesReferencia" />
+					        </p:selectOneMenu>
+						</h:panelGroup>
+					
+						<h:panelGroup>
+							<p:lineChart id="abertosFechadosSemana" value="#{ticketController.graficoAbertosFechadosSemana}" legendPosition="n"  
+								title="Abertos x Fechados na Semana" minY="0" maxY="100" style="height:300px;margin-top:20px" zoom="true" animate="true" />
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<p:lineChart id="abertosFechadosMes" value="#{ticketController.graficoAbertosFechadosMes}" legendPosition="n"  
+								title="Abertos x Fechados no Mês" minY="0" maxY="200" style="height:300px;margin-top:20px" zoom="true" animate="true" />
+						</h:panelGroup>
+						
+					</h:panelGrid>
+    			</p:tab>
+    		</p:accordionPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

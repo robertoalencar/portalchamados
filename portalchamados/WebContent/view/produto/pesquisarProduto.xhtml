@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/principal.xhtml">
+	<ui:define name="conteudo">
+		<h:form> 
+			<p:accordionPanel multiple="true" activeIndex="0,1">  
+    			<p:tab title="Filtro">
+					<p:panel id="panel" header="Informe os seguintes filtros para pesquisar: " style="margin-bottom:10px;">
+						<p:messages id="messages" />
+						<h:panelGrid columns="2" cellspacing="10" style="width:100%">
+
+							<h:panelGroup>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<h:outputLabel for="codigo" value="Código: " />
+								<p:inputText id="codigo" value="#{produtoController.produto.codigo}" maxlength="5">
+						    		<p:ajax event="keyup" update="lista, totalRegistros" listener="#{produtoController.pesquisar}" />
+						    	</p:inputText>
+							    &nbsp;
+							    <h:outputLabel for="descricao" value="Descrição: " />
+								<p:inputText id="descricao" value="#{produtoController.produto.descricao}" size="93">
+					                <p:ajax event="keyup" update="lista, totalRegistros" listener="#{produtoController.pesquisar}" />
+					            </p:inputText>
+					            &nbsp;
+					            <h:outputText for="categoria" value="Categoria: " />
+								<p:selectOneMenu id="categoria" value="#{produtoController.produto.produtoCategoria}" converter="produtoCategoriaConverter" items="#{produtoController.listaCategoriaProduto}">
+									<p:ajax event="change" update="lista, totalRegistros" listener="#{produtoController.pesquisar}" />
+									<f:selectItem itemLabel="" itemValue="" />    
+									<f:selectItems value="#{produtoController.listaCategoriaProduto}" var="categoriaProduto" itemLabel="#{categoriaProduto.descricao}" itemValue="#{categoriaProduto}" />    
+								</p:selectOneMenu>
+							</h:panelGroup>
+							<br />
+							<h:panelGroup>
+								<h:outputText for="dataInicial" value="Data Inicial: " />
+								<p:calendar value="#{produtoController.dataInicial}" id="dataInicial" showOn="button" navigator="true" />  
+								&nbsp;
+								<h:outputText for="dataFinal" value="Data Final: " />
+								<p:calendar value="#{produtoController.dataFinal}" id="dataFinal" showOn="button" navigator="true" />
+								&nbsp;
+								<p:commandButton value="Hoje" id="btHoje" action="#{produtoController.preencherDataAtual}" update="dataInicial, dataFinal" />
+								&nbsp;
+								<p:commandButton value="Semana Atual" id="btSemanaAtual" action="#{produtoController.preencherSemanaAtual}" update="dataInicial, dataFinal" />
+								&nbsp;
+								<p:commandButton value="Mês Atual" id="btMesAtual" action="#{produtoController.preencherMesAtual}" update="dataInicial, dataFinal" />
+							</h:panelGroup>
+						</h:panelGrid>
+					</p:panel>
+										
+					<p:commandButton value="Limpar" update="panel,lista, totalRegistros" id="btLimpar" action="#{produtoController.limpar}" /> &nbsp;&nbsp;
+					<p:commandButton value="Pesquisar" update="panel,lista, totalRegistros" id="btPesquisar" action="#{produtoController.pesquisar}" />
+					
+    			</p:tab>
+    			<p:tab title="listagem">
+    			
+    				<p:commandButton value="Novo" id="btLIncluirNovo" action="salvarProduto" ajax="false" />&nbsp;
+					<p:commandButton value="Editar" id="btEditar" action="#{produtoController.exibirTelaAtualizacao}" />&nbsp;
+					<p:commandButton value="Remover" id="btRemover" onclick="itemDialog.show();" update="display" />&nbsp;
+    				<br /><br />
+					<p:dataTable id="lista" var="obj" value="#{produtoController.listaProduto}" rows="10" paginator="true" 
+		        		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+		        		rowsPerPageTemplate="10,25,50,10000000" paginatorPosition="bottom" emptyMessage="Nenhum registro cadastrado."
+		        		rowKey="#{obj.chavePrimaria}" selection="#{produtoController.produtoSelecionado}" selectionMode="single">
+		
+						<p:ajax event="rowSelect" />
+		
+				        <p:column headerText="Código" style="width:5%; text-align: center">
+				        	<h:outputText value="#{obj.codigo}" />
+				        </p:column>
+				        <p:column headerText="Descrição" style="width:55%;">
+				            <h:outputText value="#{obj.descricao}" />  
+				        </p:column>  
+				        <p:column headerText="Categoria" style="width:20%;">
+				            <h:outputText value="#{obj.produtoCategoria.descricao}" />  
+				        </p:column>
+				        <p:column headerText="Data" style="width:10%; text-align: center">
+				            <h:outputText value="#{obj.data}">
+				            	<f:convertDateTime pattern="dd/MM/yyyy" />
+				            </h:outputText>  
+				        </p:column>
+				        <p:column headerText="Valor" style="width:10%;">
+				        	<div style="text-align: right;"><h:outputText value="#{obj.valor}" /></div>  
+				        </p:column>
+				    </p:dataTable>
+				    
+				    <h:outputText id="totalRegistros" value="Total de Registros: #{produtoController.listaProduto.size()}" />
+				    
+				    <p:dialog id="dialog" header="Você confirma a exclusão do item ?" widgetVar="itemDialog" width="500" showEffect="clip" hideEffect="clip">
+				        <h:panelGrid id="display" columns="2" cellpadding="4">
+				            <h:outputText value="#{produtoController.produtoSelecionado}" />  
+				        </h:panelGrid>
+						<br />				        
+				        <div align="center">
+				        	<p:commandButton value="Sim" id="btConfirmaExclusao" action="#{produtoController.removerProduto}" onclick="itemDialog.hide();" update="messages,lista" ajax="false" />&nbsp;&nbsp;
+				        	<p:commandButton value="Não" id="btRejeitaExclusao" onclick="itemDialog.hide();" update="messages,lista" />
+				        </div>
+				    </p:dialog>
+				    
+    			</p:tab>
+    		</p:accordionPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

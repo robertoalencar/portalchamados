@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/WEB-INF/templates/principal.xhtml">
+	<ui:define name="conteudo">
+		<h:form>
+			<p:accordionPanel multiple="true" activeIndex="0,0,0,0">  
+    			<p:tab title="Totais anuais no ano de referência">
+    				<h:panelGrid columns="2" cellspacing="10" columnClasses="coluna1, coluna2">
+
+						<h:panelGroup>
+							<b><h:outputText value="Data da última importação:" /></b>
+						</h:panelGroup>
+						<h:panelGroup>
+							<b>
+								<h:outputText value="#{indicadoresTotaisAnoController.registroImportacao.dataUltimaImportacao}">
+									<f:convertDateTime pattern="dd/MM/yyyy hh:mm:ss" locale="pt,BR" timeZone="America/Recife" />
+								</h:outputText>
+							</b>
+						</h:panelGroup>
+
+						<h:outputText value="Ano de Referência: " />  
+				        <p:selectOneMenu value="#{indicadoresTotaisAnoController.anoReferencia}" id="listaMesReferencia">  
+				            <f:selectItem itemLabel="2010" itemValue="2010" />  
+				            <f:selectItem itemLabel="2011" itemValue="2011" />  
+				            <f:selectItem itemLabel="2012" itemValue="2012" />  
+				            <f:selectItem itemLabel="2013" itemValue="2013" />  
+					
+				            <p:ajax update="totalAbertos, totalFechados, totalAbertosSistemas, totalAbertosSuporte, mediaMensalSistemas, mediaMensalSuporte" event="change" listener="#{indicadoresTotaisAnoController.calculaDados}" process="listaMesReferencia" />
+				        </p:selectOneMenu>
+					
+					</h:panelGrid>
+					
+					<p:separator style="width: 100%; height: 5px" />
+					
+					<h:panelGrid columns="2" cellspacing="10">	
+						<h:outputText value="QTD de Abertos Geral:" />
+						<h:outputText value="#{indicadoresTotaisAnoController.totalAbertos}" id="totalAbertos" />
+
+						<h:outputText value="QTD de Fechados Geral:" />
+						<h:outputText value="#{indicadoresTotaisAnoController.totalFechados}" id="totalFechados" />
+					</h:panelGrid>
+					
+					<p:separator style="width: 100%; height: 5px" />	
+					
+					<h:panelGrid columns="2" cellspacing="10">
+						<h:outputText value="QTD de Abertos Sistemas:" />
+						<h:outputText value="#{indicadoresTotaisAnoController.totalAbertosSistemas}" id="totalAbertosSistemas" />
+						
+						<h:outputText value="QTD de Abertos Suporte:" />
+						<h:outputText value="#{indicadoresTotaisAnoController.totalAbertosSuporte}" id="totalAbertosSuporte" />
+					</h:panelGrid>
+					
+					<p:separator style="width: 100%; height: 5px" />	
+					
+					<h:panelGrid columns="2" cellspacing="10">
+						<h:outputText value="Média Mensal Sistemas:" />
+						<h:outputText value="#{indicadoresTotaisAnoController.mediaMensalSistemas}" id="mediaMensalSistemas" />
+						
+						<h:outputText value="Média Mensal Suporte:" />
+						<h:outputText value="#{indicadoresTotaisAnoController.mediaMensalSuporte}" id="mediaMensalSuporte" />
+					</h:panelGrid>
+    			</p:tab>
+    		</p:accordionPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

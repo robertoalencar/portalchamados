@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+
+	<display-name>portalchamados</display-name>
+  	
+  	<servlet>
+    	<servlet-name>Faces Servlet</servlet-name>
+    	<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    	<load-on-startup>1</load-on-startup>
+  	</servlet>
+  	
+  	<servlet-mapping>
+    	<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+  	</servlet-mapping>
+   
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  	</listener>
+  	
+	<listener>
+    	<listener-class>
+          	org.springframework.web.context.request.RequestContextListener
+	    </listener-class>
+  	</listener>
+
+	<filter>    
+       <filter-name>PrimeFaces FileUpload Filter</filter-name>    
+       <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>    
+   </filter>    
+   
+   <filter-mapping>    
+       <filter-name>PrimeFaces FileUpload Filter</filter-name>    
+       <servlet-name>Faces Servlet</servlet-name>    
+   </filter-mapping>  
+  	
+	<context-param>
+    	<param-name>contextConfigLocation</param-name>
+    	<param-value>classpath:applicationContext.xml</param-value>
+  	</context-param>
+  	
+	<welcome-file-list>
+    	<welcome-file>view/index.xhtml</welcome-file>
+  	</welcome-file-list>
+  	
+	<context-param>
+    	<param-name>primefaces.THEME</param-name>
+    	<!--<param-value>cupertino</param-value> -->
+    	<!--<param-value>blitzer</param-value>-->
+    	<param-value>bootstrap</param-value> 
+    	<!--<param-value>bluesky</param-value> -->
+    	<!--<param-value>casablanca</param-value>-->
+    	<!--<param-value>flick</param-value>-->
+    	<!--<param-value>glass-x</param-value>-->
+    	<!--<param-value>redmond</param-value>--> 
+    	<!--<param-value>start</param-value>-->
+		<!--<param-value>ui-lightness</param-value>-->
+    	<!--<param-value>sunny</param-value>-->
+  	</context-param>
+  	
+</web-app>

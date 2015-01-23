@@ -1,0 +1,11 @@
+TO DO List:
+
+ok - Colocar a pizza dos chamados vencidos
+ok - Colocar no detalhar do chamado quanto tempo está em aberto
+ok - Colocar no detalhar do chamado quanto tempo está faltando para chegar no duo date
+OK - Filtro de datas por duo date
+ok - Gráfico de Abertos x Fechados na semana
+ok - Colocar a informação de "não informado", por exemplo, se o campo sistema do chamado não estiver preenchido, deverá  contabilizar o campo não informado
+- incluir, alterar e remover chamados
+- Controle de acesso
+- Acessar a base do spice

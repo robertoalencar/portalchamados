@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/WEB-INF/templates/principal.xhtml">
+	<ui:define name="conteudo">
+		<h:form enctype="multipart/form-data"> 
+			<p:panel id="infoImportacao" header="Informações da última importação" style="margin-bottom:10px;">
+				<h:panelGrid columns="2" cellspacing="10" columnClasses="coluna1, coluna2">
+					<h:outputText value="Tickets processados:" />
+					<h:outputText value="#{importacaoTicketController.registroImportacao.qtdTicketProcessados}" />
+					
+					<h:outputText value="Tickets inseridos:" />
+					<h:outputText value="#{importacaoTicketController.registroImportacao.qtdTicketInseridos}" />
+					
+					<h:outputText value="Tickets atualizados:" />
+					<h:outputText value="#{importacaoTicketController.registroImportacao.qtdTicketAlterados}" />
+					
+					<h:outputText value="Data da última importação:" />
+					<h:outputText value="#{importacaoTicketController.registroImportacao.dataUltimaImportacao}">
+						<f:convertDateTime pattern="dd/MM/yyyy hh:mm:ss" locale="pt,BR" timeZone="America/Recife" />
+					</h:outputText>
+				</h:panelGrid>
+			</p:panel>
+			<p:panel id="panelImportacao" header="Selecione o arquivo para a importação" style="margin-bottom:10px;">
+				<p:messages id="messages" />
+				<br />
+				<p:fileUpload value="#{importacaoTicketController.file}" mode="simple" fileUploadListener="#{importacaoTicketController.importarTicketsSpiceworks}" /> 
+				<br /><br /><br />
+				<p:commandButton value="Importar" id="btImportar" action="#{importacaoTicketController.importarTicketsSpiceworks}" ajax="false" update="infoImportacao" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

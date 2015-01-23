@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/principal.xhtml">
+	<ui:define name="conteudo">
+		<h:form> 
+			<p:panel id="panel" header="Informe os campos abaixo para salvar o registro ( * Obrigatórios ): " style="margin-bottom:10px;">
+				
+				<p:messages id="messages" />
+				<h:inputHidden name="#{ticketController.ehCadastroUsuario}" value="true" />
+				
+				<h:panelGrid columns="2" cellpadding="10" columnClasses="coluna1, coluna2">
+					<h:outputText value="Número:" />
+					<h:outputText value="#{ticketController.ticket.numero}" />
+				
+					<h:panelGroup><h:outputLabel for="titulo" value="Título: " /><h:outputText value="*" rendered="#{ticketController.habilitaEdicao == true}" /></h:panelGroup>
+					<p:inputText id="titulo" value="#{ticketController.ticket.titulo}" size="119" label="Título" rendered="#{ticketController.habilitaEdicao == true}" />
+					<h:outputLabel value="#{ticketController.ticket.titulo}" rendered="#{ticketController.habilitaEdicao == false}" />
+					
+					<h:panelGroup><h:outputLabel for="descricao" value="Descrição: " /><h:outputText value="*" rendered="#{ticketController.habilitaEdicao == true}" /></h:panelGroup>
+					<p:inputTextarea rows="20" cols="120" id="descricao" value="#{ticketController.ticket.descricao}" label="Descrição" rendered="#{ticketController.habilitaEdicao == true}" />
+					<h:outputLabel value="#{ticketController.ticket.descricao}" rendered="#{ticketController.habilitaEdicao == false}" />
+					
+					<h:outputText value="" />
+					<h:panelGroup>
+						<p:commandButton value="Limpar" update="panel" id="btLimpar" action="#{ticketController.limpar}" ajax="false" rendered="#{ticketController.habilitaEdicao == true}" />&nbsp;&nbsp;
+						<p:commandButton value="Inserir" id="btInserir" action="#{ticketController.inserirTicketUsuario}" update="panel" ajax="false" rendered="#{ticketController.habilitaEdicao == true   &amp;&amp;   ticketController.exibeBotoesAlteracao == false}" /> &nbsp;&nbsp;
+					</h:panelGroup>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

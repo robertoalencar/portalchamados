@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean id="propertyConfigurerInternal" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    <property name="location">
+	        <value>classpath:/jdbc.properties</value>
+	    </property>
+	</bean>
+
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}"/>
+		<property name="url" value="${jdbc.url}"/>
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+	</bean>
+
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		
+		<property name="annotatedClasses">
+			<list>
+				<value>br.com.copergas.portalchamados.model.produto.impl.ProdutoImpl</value>
+				<value>br.com.copergas.portalchamados.model.produto.impl.ProdutoCategoriaImpl</value>
+				<value>br.com.copergas.portalchamados.model.ticket.impl.TicketImpl</value>
+				<value>br.com.copergas.portalchamados.model.ticket.impl.TicketCategoriaImpl</value>
+				<value>br.com.copergas.portalchamados.model.ticket.impl.TicketSubCategoriaImpl</value>
+				<value>br.com.copergas.portalchamados.model.ticket.impl.SetorImpl</value>
+				<value>br.com.copergas.portalchamados.model.ticket.impl.TipoChamadoImpl</value>
+				<value>br.com.copergas.portalchamados.model.ticket.impl.OrigemChamadoImpl</value>
+				<value>br.com.copergas.portalchamados.model.ticket.impl.SistemaImpl</value>
+				<value>br.com.copergas.portalchamados.model.ticket.impl.StatusImpl</value>
+				<value>br.com.copergas.portalchamados.model.ticket.impl.PrioridadeImpl</value>
+				<value>br.com.copergas.portalchamados.model.ticket.impl.TipoAtendimentoImpl</value>
+				<value>br.com.copergas.portalchamados.model.ticket.impl.StatusCopergasImpl</value>
+				<value>br.com.copergas.portalchamados.model.ticket.impl.StatusFornecedorImpl</value>
+				<value>br.com.copergas.portalchamados.model.ticket.impl.RegistroImportacaoImpl</value>
+				<value>br.com.copergas.portalchamados.model.usuario.impl.UsuarioImpl</value>
+			</list>
+		</property>
+		 
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+
+ 	<!-- Classes de Domínio -->
+	
+	
+	<bean id="produto" class="br.com.copergas.portalchamados.model.produto.impl.ProdutoImpl" singleton="false" />
+	<bean id="produtoCategoria" class="br.com.copergas.portalchamados.model.produto.impl.ProdutoCategoriaImpl" singleton="false" />
+	<bean id="ticket" class="br.com.copergas.portalchamados.model.ticket.impl.TicketImpl" singleton="false" />
+	<bean id="ticketCategoria" class="br.com.copergas.portalchamados.model.ticket.impl.TicketCategoriaImpl" singleton="false" />
+	<bean id="ticketSubCategoria" class="br.com.copergas.portalchamados.model.ticket.impl.TicketSubCategoriaImpl" singleton="false" />
+	<bean id="setor" class="br.com.copergas.portalchamados.model.ticket.impl.SetorImpl" singleton="false" />
+	<bean id="tipoChamado" class="br.com.copergas.portalchamados.model.ticket.impl.TipoChamadoImpl" singleton="false" />
+	<bean id="origemChamado" class="br.com.copergas.portalchamados.model.ticket.impl.OrigemChamadoImpl" singleton="false" />
+	<bean id="sistema" class="br.com.copergas.portalchamados.model.ticket.impl.SistemaImpl" singleton="false" />
+	<bean id="status" class="br.com.copergas.portalchamados.model.ticket.impl.StatusImpl" singleton="false" />
+	<bean id="prioridade" class="br.com.copergas.portalchamados.model.ticket.impl.PrioridadeImpl" singleton="false" />
+	<bean id="tipoAtendimento" class="br.com.copergas.portalchamados.model.ticket.impl.TipoAtendimentoImpl" singleton="false" />
+	<bean id="statusCopergas" class="br.com.copergas.portalchamados.model.ticket.impl.StatusCopergasImpl" singleton="false" />
+	<bean id="statusFornecedor" class="br.com.copergas.portalchamados.model.ticket.impl.StatusFornecedorImpl" singleton="false" />
+	<bean id="registroImportacao" class="br.com.copergas.portalchamados.model.ticket.impl.RegistroImportacaoImpl" singleton="false" />
+	<bean id="usuario" class="br.com.copergas.portalchamados.model.usuario.impl.UsuarioImpl" singleton="false" />
+
+	
+	<!-- Services -->
+
+
+	<bean id="produtoService" class="br.com.copergas.portalchamados.model.produto.impl.ProdutoServiceImpl" singleton="true">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="ticketService" class="br.com.copergas.portalchamados.model.ticket.impl.TicketServiceImpl" singleton="true">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="usuarioService" class="br.com.copergas.portalchamados.model.usuario.impl.UsuarioServiceImpl" singleton="true">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+
+
+</beans>
